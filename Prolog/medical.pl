@@ -27,5 +27,6 @@ predict_disease :-
 
 % To start the prediction
 start :-
+    retractall(symptom(_)),
     get_symptoms,
     predict_disease.
