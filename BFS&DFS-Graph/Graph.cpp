@@ -53,10 +53,18 @@ public:
             s.pop();
             cout << node << " ";
 
-            for (auto it = adj[node].rbegin(); it != adj[node].rend(); ++it) {
-                if (!visited[*it]) {
-                    s.push(*it);
-                    visited[*it] = true;
+            // reverse dfs
+            // for (auto it = adj[node].rbegin(); it != adj[node].rend(); ++it) {
+            //     if (!visited[*it]) {
+            //         s.push(*it);
+            //         visited[*it] = true;
+            //     }
+            // }
+            
+            for(auto neighbour : adj[node]){
+                if(!visited[neighbour]){
+                    s.push(neighbour);
+                    visited[neighbour] = true;
                 }
             }
         }
