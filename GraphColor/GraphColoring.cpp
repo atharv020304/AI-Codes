@@ -111,7 +111,6 @@ bool solve(int n, int m, int v, vector<vector<int>> G, vector<int> &colorsA)
 
     for (int i = 1; i <= m; i++)
     {
-
         if (isSafe(G, v, i, n, colorsA))
         {
             colorsA[v] = i;

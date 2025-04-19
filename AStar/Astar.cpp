@@ -28,7 +28,6 @@ pair<vector<char>, int> findAstar(unordered_map<char, Graph*>& graphMap, char st
     priority_queue<pair<int, Graph*>, vector<pair<int, Graph*>>, greater<>> pq;
     unordered_map<char, int> gCost;
     unordered_map<char, char> parent;
-    set<char> visited;
 
     for (auto it = graphMap.begin(); it != graphMap.end(); ++it) {
         char ch = it->first;
@@ -42,8 +41,6 @@ pair<vector<char>, int> findAstar(unordered_map<char, Graph*>& graphMap, char st
         pair<int, Graph*> top = pq.top(); pq.pop();
         Graph* current = top.second;
 
-        if (visited.count(current->Data)) continue;
-        visited.insert(current->Data);
 
         if (current->Data == goal) break;
 
@@ -90,6 +87,25 @@ int main() {
     graphMap['D']->AddEdge(graphMap['G'], 4);
     graphMap['E']->AddEdge(graphMap['G'], 3);
     graphMap['F']->AddEdge(graphMap['G'], 1);
+
+    // graphMap['S'] = new Graph('S',7);
+    // graphMap['A'] = new Graph('A',6);
+    // graphMap['B'] = new Graph('B',2);
+    // graphMap['C'] = new Graph('C',1);
+    // graphMap['D'] = new Graph('D',0);
+
+
+    // graphMap['S']->AddEdge(graphMap['A'],1);
+    // graphMap['S']->AddEdge(graphMap['B'],4);
+    // graphMap['A']->AddEdge(graphMap['B'],2);
+    // graphMap['A']->AddEdge(graphMap['C'],5);
+    // graphMap['A']->AddEdge(graphMap['D'],12);
+    // graphMap['B']->AddEdge(graphMap['C'],2);
+    // graphMap['C']->AddEdge(graphMap['D'],3);
+
+
+
+    // pair<vector<char>, int> result = findAstar(graphMap, 'S', 'D');
 
     pair<vector<char>, int> result = findAstar(graphMap, 'A', 'G');
 
