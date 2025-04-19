@@ -100,6 +100,18 @@ void printSolution(Graph* start) {
         cout << " --" << best_group[i].second << "--> ";
         printSolution(best_group[i].first);
     }
+
+    //print path way-2
+    // for (int i = 0; i < best_group.size(); ++i)
+    // {
+    //     cout << start->Data << " --> " << best_group[i].first->Data << endl;
+    // }
+    // cout << endl;
+    // for (int i = 0; i < best_group.size(); ++i)
+    // {
+    //     printSolution(best_group[i].first);
+    // }
+    
 }
 
 int main() {
