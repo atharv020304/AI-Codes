@@ -102,11 +102,6 @@ void dfs2(node* root){
 
 
 
-
-
-
-
-
 int main(){
     node* root = new node();
     root->data = 1;

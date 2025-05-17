@@ -41,7 +41,6 @@ pair<vector<char>, int> findAstar(unordered_map<char, Graph*>& graphMap, char st
         pair<int, Graph*> top = pq.top(); pq.pop();
         Graph* current = top.second;
 
-
         if (current->Data == goal) break;
 
         for (int i = 0; i < current->adj.size(); ++i) {

@@ -84,88 +84,168 @@
 //     return 0;
 // }
 
+// #include <iostream>
+// #include <bits/stdc++.h>
+
+// using namespace std;
+
+// bool isSafe(vector<vector<int>> G, int v, int c, int n, vector<int> &colorsA)
+// {
+//     for (int i = 0; i < n; i++)
+//     {
+//         if (G[v][i] == 1 && colorsA[i] == c)
+//         {
+//             return false;
+//         }
+//     }
+
+//     return true;
+// }
+
+// bool solve(int n, int m, int v, vector<vector<int>> G, vector<int> &colorsA)
+// {
+//     if (v == n)
+//     {
+//         return true;
+//     }
+
+//     for (int i = 1; i <= m; i++)
+//     {
+//         if (isSafe(G, v, i, n, colorsA))
+//         {
+//             colorsA[v] = i;
+//             if (solve(n, m, v + 1, G, colorsA))
+//             {
+//                 return true;
+//             }
+//             colorsA[v] = -1;
+//         }
+//     }
+
+//     return true;
+// }
+
+// void GC(int m, int n, int e, vector<vector<int>> G)
+// {
+//     vector<int> colorsA(n, -1);
+//     if (solve(n, m, 0, G, colorsA))
+//     {
+//         cout << "Answer : ";
+//         for (int i : colorsA)
+//         {
+//             cout << i << " ";
+//         }
+//         cout << endl;
+//     }
+//     else
+//     {
+//         cout << "Not Possible\n";
+//     }
+// }
+
+// int main()
+// {
+//     int n, e;
+
+//     cout << "Enter number of node in graph : ";
+//     cin >> n;
+//     cout << "Enter number of edges in graph : ";
+//     cin >> e;
+
+//     // int G[n][n];
+//     vector<vector<int>> G(n, vector<int>(n, 0));
+
+//     for (int i = 0; i < e; i++)
+//     {
+//         int a, b;
+//         cout << "Enter edge : ";
+//         cin >> a >> b;
+//         G[a][b] = G[b][a] = 1;
+//     }
+
+//     int m;
+//     cout << "Enter number of colors : ";
+//     cin >> m;
+
+//     GC(m, n, e, G);
+// }
+
+
+
+
+
+
+
+
 #include <iostream>
-#include <bits/stdc++.h>
+#include <vector>
 
 using namespace std;
 
-bool isSafe(vector<vector<int>> G, int v, int c, int n, vector<int> &colorsA)
-{
-    for (int i = 0; i < n; i++)
-    {
-        if (G[v][i] == 1 && colorsA[i] == c)
-        {
-            return false;
+bool isColorValid(const vector<vector<int>> &adjMatrix, int node, int color, int totalNodes, const vector<int> &assignedColors) {
+    for (int neighbor = 0; neighbor < totalNodes; neighbor++) {
+        if (adjMatrix[node][neighbor] == 1 && assignedColors[neighbor] == color) {
+            return false; 
         }
     }
-
     return true;
 }
 
-bool solve(int n, int m, int v, vector<vector<int>> G, vector<int> &colorsA)
-{
-    if (v == n)
-    {
-        return true;
+bool assignColors(int totalNodes, int maxColors, int currentNode, const vector<vector<int>> &adjMatrix, vector<int> &assignedColors) {
+    if (currentNode == totalNodes) {
+        return true; 
     }
 
-    for (int i = 1; i <= m; i++)
-    {
-        if (isSafe(G, v, i, n, colorsA))
-        {
-            colorsA[v] = i;
-            if (solve(n, m, v + 1, G, colorsA))
-            {
+    for (int color = 1; color <= maxColors; color++) {
+        if (isColorValid(adjMatrix, currentNode, color, totalNodes, assignedColors)) {
+            assignedColors[currentNode] = color;
+
+            if (assignColors(totalNodes, maxColors, currentNode + 1, adjMatrix, assignedColors)) {
                 return true;
             }
-            colorsA[v] = -1;
+
+            assignedColors[currentNode] = -1; 
         }
     }
 
-    return true;
+    return false;
 }
 
-void GC(int m, int n, int e, vector<vector<int>> G)
-{
-    vector<int> colorsA(n, -1);
-    if (solve(n, m, 0, G, colorsA))
-    {
-        cout << "Answer : ";
-        for (int i : colorsA)
-        {
-            cout << i << " ";
+void graphColoring(int maxColors, int totalNodes, int totalEdges, const vector<vector<int>> &adjMatrix) {
+    vector<int> assignedColors(totalNodes, -1);
+
+    if (assignColors(totalNodes, maxColors, 0, adjMatrix, assignedColors)) {
+        cout << "Color Assignment: ";
+        for (int color : assignedColors) {
+            cout << color << " ";
         }
         cout << endl;
-    }
-    else
-    {
-        cout << "Not Possible\n";
+    } else {
+        cout << "Coloring not possible with given number of colors.\n";
     }
 }
 
-int main()
-{
-    int n, e;
+int main() {
+    int totalNodes, totalEdges;
 
-    cout << "Enter number of node in graph : ";
-    cin >> n;
-    cout << "Enter number of edges in graph : ";
-    cin >> e;
+    cout << "Enter number of nodes in the graph: ";
+    cin >> totalNodes;
 
-    // int G[n][n];
-    vector<vector<int>> G(n, vector<int>(n, 0));
+    cout << "Enter number of edges in the graph: ";
+    cin >> totalEdges;
 
-    for (int i = 0; i < e; i++)
-    {
-        int a, b;
-        cout << "Enter edge : ";
-        cin >> a >> b;
-        G[a][b] = G[b][a] = 1;
+    vector<vector<int>> adjMatrix(totalNodes, vector<int>(totalNodes, 0));
+
+    for (int i = 0; i < totalEdges; i++) {
+        int node1, node2;
+        cout << "Enter edge (node1 node2): ";
+        cin >> node1 >> node2;
+        adjMatrix[node1][node2] = adjMatrix[node2][node1] = 1;
     }
 
-    int m;
-    cout << "Enter number of colors : ";
-    cin >> m;
+    int maxColors;
+    cout << "Enter number of available colors: ";
+    cin >> maxColors;
 
-    GC(m, n, e, G);
+    graphColoring(maxColors, totalNodes, totalEdges, adjMatrix);
 }
