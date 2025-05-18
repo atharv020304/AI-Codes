@@ -1,0 +1,28 @@
+% Initialization
+:- initialization(main).
+
+% Disease definitions with fewer parameters
+disease(flu, [fever, cough, fatigue, travel_history(hiking), lifestyle(smoker)]).
+disease(dengue, [fever, low_platelet, travel_history(tropical), lifestyle(non_smoker)]).
+disease(covid19, [fever, cough, shortness_of_breath, travel_history(recent), lifestyle(non_smoker)]).
+disease(malaria, [fever, chills, travel_history(tropical), lifestyle(non_smoker)]).
+
+% Diagnose predicate
+diagnose(Disease, PatientData) :-
+    disease(Disease, DiseaseData),
+    subset(PatientData, DiseaseData).
+
+% Subset check
+subset([], _).
+subset([H|T], List) :- 
+    member(H, List), 
+    subset(T, List).
+
+% Main entry point
+main :-
+    % Example input
+    Patient = [fever, low_platelet, travel_history(tropical), lifestyle(non_smoker)],
+    ( diagnose(Disease, Patient) ->
+        write('Disease: '), write(Disease), nl
+    ; 
+        write('No diagnosis.'), nl ).
